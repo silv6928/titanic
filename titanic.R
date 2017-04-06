@@ -1,4 +1,9 @@
-df <- read.csv("~/titanic/train.csv", sep = ",")
+wd <- paste(getwd(),"/titanic/train.csv", sep ="")
+df <- read.csv(wd, sep = ",")
+
+#Requirements
+install.packages('ggplot2')
+library(ggplot2)
 
 summary(df)
 # Data Preprocessing
@@ -11,6 +16,11 @@ df$Parch <- factor(df$Parch, levels = seq(0,6,1))
 # Those people are assigned an S, also the most frequent emabarked place
 df[grep(pattern = "B2", x = df$Cabin),]
 df$Embarked[df$Embarked == ""] <- "S"
+df$Embarked <- factor(df$Embarked)
 
 
+
+# Data Exploration and Insights
+hist(df$Age[df$Sex == 'female'])
+hist(df$Age[df$Sex == 'male'])
 
