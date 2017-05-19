@@ -79,8 +79,12 @@ df_CL = pd.get_dummies(titanic["CL"])
 titanic = pd.concat([titanic, df_CL], axis=1)
 del df_CL
 
+df_pclass = pd.get_dummies(titanic["Pclass"])
+df_pclass.columns = ["pclass1","pclass2","pclass3"]
+titanic = pd.concat([titanic, df_pclass], axis=1)
+del df_pclass
 
-titanic = titanic.drop(["Embarked", "Fare", "Sex", "title", "Ticket", "CL", "Cabin", "Name"], axis=1)
+titanic = titanic.drop(["Pclass","Embarked", "Fare", "Sex", "title", "Ticket", "CL", "Cabin", "Name"], axis=1)
 
 
 # Create a Linear Regression Model to predict the Age of the null Ages
@@ -123,7 +127,8 @@ print("Logisitic Regression Model")
 print(clf.score(vald_X, actual))
 print(confusion_matrix(actual, predictions, labels=[0,1]))
 
-# Random Forest Classifier, accuracy of .78947
+# Random Forest Classifier, accuracy of .79426 with splitting PClass out.
+# .78 accuracy with not splitting out PClass.
 clf = RandomForestClassifier(n_estimators=500,criterion="entropy", min_samples_leaf=4)
 clf.fit(train_X, train_Y)
 predictions = clf.predict(vald_X)
